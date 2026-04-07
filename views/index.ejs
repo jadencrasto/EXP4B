@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mumbai Rain Forecast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="page">
+    <header>
+      <div class="location-tag">📍 Mumbai, Maharashtra</div>
+      <h1>Tomorrow's<br/><em>Forecast</em></h1>
+      <p class="subhead">Will you need an umbrella?</p>
+    </header>
+
+    <% if (rainData) { %>
+    <main class="card <%= rainData.willRain ? 'is-rain' : 'is-clear' %>">
+      <div class="verdict-row">
+        <div class="verdict-icon">
+          <img src="https://openweathermap.org/img/wn/<%= rainData.icon %>@2x.png" alt="weather icon"/>
+        </div>
+        <div class="verdict-text">
+          <span class="verdict-label">verdict</span>
+          <h2><%= rainData.willRain ? 'Bring your umbrella.' : 'Leave it at home.' %></h2>
+          <p class="condition-desc"><%= rainData.description %></p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-value"><%= rainData.pop %><sup>%</sup></span>
+          <span class="stat-label">Rain chance</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value"><%= rainData.tempMin %>°<span class="sep">–</span><%= rainData.tempMax %>°</span>
+          <span class="stat-label">Temp range (°C)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value"><%= rainData.humidity %><sup>%</sup></span>
+          <span class="stat-label">Humidity</span>
+        </div>
+        <% if (rainData.rain > 0) { %>
+        <div class="stat">
+          <span class="stat-value"><%= rainData.rain %><sup>mm</sup></span>
+          <span class="stat-label">Rainfall</span>
+        </div>
+        <% } %>
+      </div>
+      <div class="date-bar">
+        <span><%= rainData.date %></span>
+        <span class="dot">·</span>
+        <span>As of <%= rainData.time %></span>
+        <span class="dot">·</span>
+        <span>Updated just now</span>
+      </div>
+    </main>
+    <% } else { %>
+    <main class="card is-error">
+      <p class="error-msg">⚠️ <%= error %></p>
+    </main>
+    <% } %>
+
+    <footer>
+      <span>Powered by OpenWeatherMap · Built with Express & Axios</span>
+    </footer>
+  </div>
+</body>
+</html>
